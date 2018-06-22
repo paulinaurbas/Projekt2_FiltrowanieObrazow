@@ -46,6 +46,29 @@ PIXEL** Read_BMP_Pixel(FILE * inFile, HEADER *pHeader, INFOHEADER *pInfoHeader, 
 	}
 	return pImage;
 }
+Image * BMPtoImage(char * FileName, Image * readyImage)
+{
+	FILE *inFile;
+	readyImage->pHeader = (HEADER *)malloc(sizeof(HEADER));
+	readyImage->Info = (INFOHEADER *)malloc(sizeof(INFOHEADER));
+	readyImage->tab= (PIXEL *)malloc(sizeof(PIXEL));
+	inFile = fopen(FileName, "rb");
+	if (inFile == NULL)
+	{
+		printf("Can't open input file for reading.\n");
+		Help();
+		return 0;
+	}
+	readyImage->pHeader = Read_BMP_Header(inFile, readyImage->pHeader);
+	readyImage->Info = Read_BMP_Info(inFile, readyImage->Info);
+	readyImage->pPixel = (PIXEL **)malloc(sizeof(PIXEL *) * readyImage->Info->Height);
+	readyImage->pPixel = Read_BMP_Pixel(inFile, readyImage->pHeader, readyImage->Info, readyImage->tab, readyImage->pPixel);
+	readyImage->pCopy= (PIXEL **)malloc(sizeof(PIXEL *) * readyImage->Info->Height);
+	readyImage->pCopy = Read_BMP_Pixel(inFile, readyImage->pHeader, readyImage->Info, readyImage->tab, readyImage->pCopy);
+	fclose(inFile);
+	return readyImage;
+
+}
 void Write_BMP_Header(FILE * outFile, HEADER *pHeader)
 {
 	fwrite(&pHeader->Signature, sizeof(pHeader->Signature), 1, outFile);
@@ -80,9 +103,37 @@ void Write_BMP_Pixel(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, P
 		}
 	}
 }
-void WriteBMP(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, PIXEL *pPixel, PIXEL **pImage)
+void WriteBMP(char * FileName, Image * pImage)
+{
+	FILE *outFile;
+	outFile = fopen(FileName, "wb");
+	if (outFile == NULL)
+	{
+		printf("Can't open output file for writing.\n");
+		return 1;
+	}
+	Write_BMP(outFile, pImage->pHeader, pImage->Info, pImage->tab, pImage->pCopy);
+	fclose(outFile);
+}
+void Write_BMP(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, PIXEL *pPixel, PIXEL **pImage)
 {
 	Write_BMP_Header(outFile, pHeader);
 	Write_BMP_Info(outFile, pInfoHeader);
 	Write_BMP_Pixel(outFile, pHeader, pInfoHeader, pPixel, pImage);
+}
+void DeleteImage(Image * pImage)
+{
+	for (int i = 0; i <pImage->Info->Height; i++)
+	{
+		free(pImage->pPixel[i]);
+	}
+	for (int i = 0; i <pImage->Info->Height; i++)
+	{
+		free(pImage->pCopy[i]);
+	}
+	free(pImage->pPixel);
+	free(pImage->pCopy);
+	free(pImage->pHeader);
+	free(pImage->Info);
+	free(pImage->tab);
 }

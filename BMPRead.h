@@ -32,6 +32,14 @@ typedef struct
 	unsigned char Red, Green, Blue;
 
 } PIXEL;
+typedef struct
+{
+	HEADER *pHeader;
+	INFOHEADER * Info;
+	PIXEL * tab;
+	PIXEL ** pPixel;
+	PIXEL ** pCopy;
+}Image;
 /** Function reading in binary from file to structure Header
 @author Paulina Urbas
 @date 2.05.2018
@@ -77,6 +85,24 @@ void Write_BMP_Pixel(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, P
 @param outFile, *pHeader, *pInfoHeader, *pPixel, **pImage
 @return PIXEL **
 */
-void WriteBMP(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, PIXEL *pPixel, PIXEL **pImage);
-
+void Write_BMP(FILE * outFile, HEADER *pHeader, INFOHEADER *pInfoHeader, PIXEL *pPixel, PIXEL **pImage);
+/**  Function reading BMP from file and covering into image 
+@author Paulina Urbas
+@date 16.06.2018
+@param char *, Image* 
+@return Image * 
+*/
+Image * BMPtoImage(char * FileName, Image * readyImage);
+/**  Function writing convert BMP to file
+@author Paulina Urbas
+@date 16.06.2018
+@param char *, Image* 
+*/
+void WriteBMP(char * FileName, Image * pImage);
+/**  Function deleting allocated memory for Image
+@author Paulina Urbas
+@date 2.05.2018
+@param Image * 
+*/
+void DeleteImage(Image * pImage);
 #endif

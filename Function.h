@@ -5,53 +5,68 @@
 /** Function converting picture to black-white photo
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoheader, Pixel
+@param Image * 
 */
-void Convert_to_Sepia(INFOHEADER *pInfoHeader, PIXEL **pImage);
-/** Function converting picture to sepii picture 
+void Convert_to_Black(Image * pImage);
+/** Function converting picture to sepii picture
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoheader, Pixel
+@param pImage
 */
-void Convert_to_Black (INFOHEADER *pInfoHeader, PIXEL **pImage);
+void Convert_to_Sepia(Image * pImage);
 /** Function converting picture to red photo
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoeader, Pixel
+@param Image * 
 */
-void Convert_to_Red(INFOHEADER *pInfoHeader, PIXEL **pImage);
+void Convert_to_Red(Image * pImage);
 /** Function converting picture to Inversion 
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoeader, Pixel
+@param Image * 
 */
-void Inversion(INFOHEADER *pInfoHeader, PIXEL **pImage);
+void Inversion(Image * pImage);
 /** Function converting brightness of picture
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoeader, Pixel, char
+@param Image * 
 */
-void Brightness(INFOHEADER *pInfoHeader, PIXEL **pImage, char change);
+void Brightness(Image * pImage, char change);
 /** Function converting contrast of picture
 @author Paulina Urbas
 @date 2.06.2018
-@param Infoeader, Pixel, char
+@param Image *, char 
 */
-void Contrast(INFOHEADER *pInfoHeader, PIXEL **pImage, unsigned char contrast);
-/** Function converting contrast of picture
+void Contrast(Image * pImage, unsigned char contrast);
+/** Function which suming neighboiur pixel 
 @author Paulina Urbas
-@date 5.06.2018
-@param Infoeader, Pixel, char
+@date 16.06.2018
+@param Image *
 */
-void Smooth(INFOHEADER *pInfoHeader, PIXEL **pImage, PIXEL ** pCopy);
-void corner1(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void middle(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void side1(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void corner2(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void side3(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void side2(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void corner3(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void corner4(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void side4(INFOHEADER * pInforHeader, PIXEL ** pImage);
-void LaplaceEdge(INFOHEADER *pInfoHeader, PIXEL **pImage, PIXEL ** copy);
+void middle(Image * pImage);
+/** Function smoothing the picture
+@author Paulina Urbas
+@date 16.06.2018
+@param Image *
+*/
+void Smooth(Image * pImage);
+/** Function s
+@author Paulina Urbas
+@date 16.06.2018
+@param Image * 
+@return int ** 
+*/
+int ** KernelLaplace();
+/** Function appling kertel to image
+@author Paulina Urbas
+@date 16.06.2018
+@param Image
+*/
+void ApplyKerneltoImage(Image * pImage);
+/** Function detecting edge wi
+@author Paulina Urbas
+@date 16.06.2018
+@param Image *
+*/
+void LaplaceEdge(Image * pImage);
 #endif
