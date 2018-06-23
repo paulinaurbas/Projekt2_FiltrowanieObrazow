@@ -55,15 +55,18 @@ Image * BMPtoImage(char * FileName, Image * readyImage)
 	inFile = fopen(FileName, "rb");
 	if (inFile == NULL)
 	{
-		printf("Can't open input file for reading.\n");
+		printf("Nie mozna odczytac pliku.\n");
 		Help();
+		free(readyImage->pHeader);
+		free(readyImage->Info);
+		free(readyImage->tab);
 		return 0;
 	}
 	readyImage->pHeader = Read_BMP_Header(inFile, readyImage->pHeader);
 	readyImage->Info = Read_BMP_Info(inFile, readyImage->Info);
 	readyImage->pPixel = (PIXEL **)malloc(sizeof(PIXEL *) * readyImage->Info->Height);
+	readyImage->pCopy = (PIXEL **)malloc(sizeof(PIXEL *) * readyImage->Info->Height);
 	readyImage->pPixel = Read_BMP_Pixel(inFile, readyImage->pHeader, readyImage->Info, readyImage->tab, readyImage->pPixel);
-	readyImage->pCopy= (PIXEL **)malloc(sizeof(PIXEL *) * readyImage->Info->Height);
 	readyImage->pCopy = Read_BMP_Pixel(inFile, readyImage->pHeader, readyImage->Info, readyImage->tab, readyImage->pCopy);
 	fclose(inFile);
 	return readyImage;
