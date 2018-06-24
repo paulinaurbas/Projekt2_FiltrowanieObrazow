@@ -60,7 +60,7 @@ Image * BMPtoImage(char * FileName, Image * readyImage)
 		free(readyImage->pHeader);
 		free(readyImage->Info);
 		free(readyImage->tab);
-		return 0;
+		return;
 	}
 	readyImage->pHeader = Read_BMP_Header(inFile, readyImage->pHeader);
 	readyImage->Info = Read_BMP_Info(inFile, readyImage->Info);
