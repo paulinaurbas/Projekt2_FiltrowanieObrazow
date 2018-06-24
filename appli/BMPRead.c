@@ -60,7 +60,7 @@ Image * BMPtoImage(char * FileName, Image * readyImage)
 		free(readyImage->pHeader);
 		free(readyImage->Info);
 		free(readyImage->tab);
-		return;
+		return 0;
 	}
 	readyImage->pHeader = Read_BMP_Header(inFile, readyImage->pHeader);
 	readyImage->Info = Read_BMP_Info(inFile, readyImage->Info);
@@ -113,7 +113,7 @@ void WriteBMP(char * FileName, Image * pImage)
 	if (outFile == NULL)
 	{
 		printf("Can't open output file for writing.\n");
-		return 1;
+		return;
 	}
 	Write_BMP(outFile, pImage->pHeader, pImage->Info, pImage->tab, pImage->pCopy);
 	fclose(outFile);
